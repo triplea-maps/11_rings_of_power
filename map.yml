@@ -1,0 +1,3 @@
+map_name: 11 Rings of Power
+games:
+- { game_name: "11 Rings of Power", file_name: 11_rings_of_power.xml }
