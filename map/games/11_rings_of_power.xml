@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" ?>
 <!DOCTYPE game SYSTEM "game.dtd">
 <game>
-	<info name="11 Rings of Power" version="0.001"/>
+	<info name="11 Rings of Power" version="0.010"/>
 	<loader javaClass="games.strategy.triplea.TripleA"/>
   	<triplea minimumVersion="2026-09.16.15791"/>	<!-- Allows construction upgrades to be placed within construction limit, thanks to VictoryFirst -->
 	<diceSides value="8"/>
@@ -201,7 +201,7 @@ For Code Raiders
 </variable>
 
 <!-- Go All-Fate items for dial -->
-<variable name="All-Fate">	<!-- 16, missing Fate-Cursed-Codex -->
+<variable name="All-Fate">	<!-- 16, missing Fate-Cruel-Codex -->
 	<element name="Fate-Ally-Village"/>
 	<element name="Fate-Dark-Crystal"/>
 	<element name="Fate-DragonHide-Shield"/>
@@ -2588,7 +2588,7 @@ Simulate slower move on a River, costs 1+1=2 to enter, see below			<option name=
 		<option name="createsResourcesList" value="1:Fame"/>
 		<option name="tuv" value="11"/>
 	</attachment>
-<!-- Leader Command +1 Atk/Def to 5 unit -->
+<!-- Leader Command +1 Atk/Def to 4 units -->
 	<attachment foreach="$All-Players$" name="supportAttachment_Commander5_@All-Players@" attachTo="Leader-L1-@All-Players@" javaClass="UnitSupportAttachment" type="unitType">
 		<option name="faction" value="allied"/>
 		<option name="unitType" value="$All-CommandUnits$"/>
@@ -2626,7 +2626,7 @@ Simulate slower move on a River, costs 1+1=2 to enter, see below			<option name=
 		<option name="createsResourcesList" value="1:Fame"/>
 		<option name="tuv" value="21"/>
 	</attachment>
-<!-- Leader Command +1 Atk/Def to 6 unit -->
+<!-- Leader Command +1 Atk/Def to 5 units -->
 	<attachment foreach="$All-Players$" name="supportAttachment_Commander6_@All-Players@" attachTo="Leader-L2-@All-Players@" javaClass="UnitSupportAttachment" type="unitType">
 		<option name="faction" value="allied"/>
 		<option name="unitType" value="$All-CommandUnits$"/>
@@ -2664,7 +2664,7 @@ Simulate slower move on a River, costs 1+1=2 to enter, see below			<option name=
 		<option name="createsResourcesList" value="1:Fame"/>
 		<option name="tuv" value="31"/>
 	</attachment>
-<!-- Leader Command +1 Atk/Def to 7 unit -->
+<!-- Leader Command +1 Atk/Def to 6 units -->
 	<attachment foreach="$All-Players$" name="supportAttachment_Commander7_@All-Players@" attachTo="Leader-L3-@All-Players@" javaClass="UnitSupportAttachment" type="unitType">
 		<option name="faction" value="allied"/>
 		<option name="unitType" value="$All-CommandUnits$"/>
@@ -2767,11 +2767,6 @@ Simulate slower move on a River, costs 1+1=2 to enter, see below			<option name=
 		<option name="consumesUnits" value="1:Magician-L1-@All-Players@"/>
 
 		<option name="givesMovement" value="2:$All-RoP$:$All-Move0Fate$"/>
-			<option name="requiresUnits" value="Fortress"/>
-			<option name="requiresUnits" value="Castle"/>
-			<option name="requiresUnits" value="Capital"/>
-			<option name="requiresUnits" value="City"/>
-			<option name="requiresUnits" value="Town"/>
 		<option name="createsResourcesList" value="2:Mana"/>
 		<option name="createsUnitsList" value="1:Curse"/>
 		<option name="canProduceUnits" value="true"/>
@@ -2803,11 +2798,6 @@ Simulate slower move on a River, costs 1+1=2 to enter, see below			<option name=
 		<option name="consumesUnits" value="1:Magician-L2-@All-Players@"/>
 
 		<option name="givesMovement" value="3:$All-RoP$:$All-Move0Fate$"/>
-			<option name="requiresUnits" value="Fortress"/>
-			<option name="requiresUnits" value="Castle"/>
-			<option name="requiresUnits" value="Capital"/>
-			<option name="requiresUnits" value="City"/>
-			<option name="requiresUnits" value="Town"/>
 		<option name="createsResourcesList" value="3:Mana"/>
 		<option name="createsUnitsList" value="1:Curse"/>
 		<option name="createsUnitsList" value="1:Lightning"/>
@@ -2901,7 +2891,7 @@ Simulate slower move on a River, costs 1+1=2 to enter, see below			<option name=
 		<option name="createsResourcesList" value="-1:NumRoP"/>
 		<option name="tuv" value="30"/>
 	</attachment>
-<!-- RoP give +3 Atk/Def to 1 unit -->
+<!-- RoP give +1 Atk/Def to 3 units -->
 	<attachment foreach="$All-RoP$" name="supportAttachment_RoP_@All-RoP@" attachTo="@All-RoP@" javaClass="UnitSupportAttachment" type="unitType">
 		<option name="faction" value="allied"/>
 		<option name="unitType" value="$All-Heroes$:$All-Move1Land$:Cavalry"/>
@@ -3104,7 +3094,7 @@ Simulate slower move on a River, costs 1+1=2 to enter, see below			<option name=
 	<attachment name="unitAttachment" attachTo="Siege" javaClass="UnitAttachment" type="unitType">
 		<option name="attack" value="2"/>
 			<option name="isMarine" value="-1"/>
-			<option name="canNotTarget" value="$All-Move1Land$:$All-Move2Land$:$All-Heroes$:Winged"/>	<!-- leaving All-Walled -->
+			<option name="canNotTarget" value="$All-Move1Land$:$All-Move2Land$:$All-Heroes$:Winged:Wild-Things"/>	<!-- leaving All-Walled, Dragon, Monster, Archangel -->
 		<option name="defense" value="1"/>
 		<option name="movement" value="1"/>
 			<option name="transportCost" value="15"/>
@@ -3346,20 +3336,21 @@ Simulate slower move on a River, costs 1+1=2 to enter, see below			<option name=
 
 
 <!-- =============================================  cost 1pu cant be bought, tuv for AI attraction  ============================================= -->
-<!-- Flag National owner flag -->
+<!-- Go Flag National owner flag -->
 	<attachment name="unitAttachment" attachTo="Flag" javaClass="UnitAttachment" type="unitType">
 		<option name="isAA" value="true"/>								<!-- is always 1st unit slot in place.txt -->
-			<option name="isAAforBombingThisUnitOnly" value="true"/>
-				<option name="offensiveAttackAA" value="0"/>			<!-- sets the value the AA will attack at -->
-				<option name="attackAA" value="0"/>						<!-- misnomer, this applies to defense -->
+<!--			<option name="isAAforBombingThisUnitOnly" value="true"/>
+				<option name="offensiveAttackAA" value="0"/>
+				<option name="attackAA" value="0"/>
 					<option name="maxAAattacks" value="200"/>
 					<option name="maxRoundsAA" value="200"/>
 						<option name="maxAAattacks" value="1"/>
 						<option name="maxRoundsAA" value="1"/>
-			<option name="isAAforCombatOnly" value="true"/>  <!-- remove to make the AI more aggressive -->  <!-- false = it will defend against strategic bombing raids -->
+			<option name="isAAforCombatOnly" value="true"/>
 			<option name="typeAA" value="Guard"/>				 
 			<option name="targetsAA" value="Assassin"/>
 			<option name="mayOverStackAA" value="false"/>
+-->
 		<option name="canProduceUnits" value="true"/>
 			<option name="canProduceXUnits" value="2"/><!-- Go Random placement & none placement of Fate & Wild-Things & Skirmisher, Siege -->
 	</attachment>
@@ -3645,7 +3636,7 @@ Simulate slower move on a River, costs 1+1=2 to enter, see below			<option name=
 		<option name="isInfrastructure" value="true"/>
 		<option name="tuv" value="10"/>
 	</attachment>
-<!-- Vorpal-Blade +2 Atk/Def to 1 unit -->
+<!-- Vorpal-Blade +3 Atk/Def to 1 unit -->
 	<attachment name="supportAttachment_Vorpal-Blade" attachTo="Fate-Vorpal-Blade" javaClass="UnitSupportAttachment" type="unitType">
 		<option name="faction" value="allied"/>
 		<option name="unitType" value="$All-CommandUnits$"/>
@@ -4508,12 +4499,12 @@ Simulate slower move on a River, costs 1+1=2 to enter, see below			<option name=
 		<option name="conditions" value="conditionAttachment_EveryT5_@All-Players@"/>
 			<option name="purchase" value="Galley" count="1"/>		<!-- 2 const -->
 			<option name="purchase" value="City" count="1"/>		<!-- 4 const -->
-			<option name="purchase" value="Fortress" count="1"/>	<!-- 2 const -->
+			<option name="purchase" value="Fortress" count="1"/>	<!-- 3 const -->
 <!-- 			<option name="purchase" value="Town" count="1"/>		5 const -->
 <!--				<option name="resource" value="PUs"/>
 				<option name="resourceCount" value="-20"/>  only one resource allowed -->
 				<option name="resource" value="Construct"/>
-				<option name="resourceCount" value="-8"/>
+				<option name="resourceCount" value="-9"/>
 		<option name="when" value="before:@All-Players@Purchase"/>
 		<option name="uses" value="4"/>
 	</attachment>
@@ -4931,7 +4922,7 @@ Simulate slower move on a River, costs 1+1=2 to enter, see below			<option name=
 
 
 <!-- ======================================= GO destroyedTUV =======================================  -->
-<!-- each 5 TUV of Defender units destroyed/killed by the phasing/attacking faction, gains 1 Fame -->
+<!-- each 10 TUV of Defender units destroyed/killed by the phasing/attacking faction, gains 1 Fame -->
 	<attachment foreach="$All-Players$" name="conditionAttachment_Kills_10_@All-Players@" attachTo="@All-Players@" javaClass="RulesAttachment" type="player">
 		<option name="destroyedTUV" value="currentRound" count="10"/>
 	</attachment>
@@ -4964,7 +4955,7 @@ Simulate slower move on a River, costs 1+1=2 to enter, see below			<option name=
 <!-- ======================================= END destroyedTUV =======================================  -->
 
 
-<!-- ======================================= Graphic ownership of RoP =======================================  -->
+<!-- ======================================= Graphic ownership of 11 RoP & 16 Fate =======================================  -->
 <!-- Go All-RoP-Fate & Go All-RoP-TTSZ
 alliedOwnershipTerritories does not work, changes All-RoP to phasing player
 alliedPresenceTerritories works
@@ -5751,18 +5742,68 @@ relationship	values: a relationship that needs to be present in the game: "playe
 	</attachment>
 
 
+
+
 <!-- ======================================= GO NOTIFICATIONS for all players of an Impending ALLIED Victory ======================================= -->
 <!-- ======================================= GO VICTORY =======================================  -->
 <!-- Notify all players that ALLIED & FRIENDLY relationship victory is near -->
+<!--
 	<attachment foreach="$All-Players$" name="conditionAttachment_Notify_Impending_@All-Players@" attachTo="@All-Players@" javaClass="RulesAttachment" type="player">
-		<option name="alliedPresenceTerritories" value="map" count="5"/>	<!-- x on map 5, test=3 -->
+		<option name="alliedPresenceTerritories" value="map" count="5"/>
 		<option name="unitPresence" value="$All-RoP$" count="1"/>
 	</attachment>
 	<attachment foreach="$All-Players$" name="triggerAttachment_Notify_Impending_@All-Players@" attachTo="@All-Players@" javaClass="TriggerAttachment" type="player">
-		<option name="conditions" value="conditionAttachment_Notify_Impending_@All-Players@"/>  <!-- see notification.properties -->
+		<option name="conditions" value="conditionAttachment_Notify_Impending_@All-Players@"/>
 		<option name="notification" value="Notify_Impending_@All-Players@"/> 
 		<option name="players" value="$All-Players$"/>
 	</attachment>
+-->
+
+<!-- ======================================= GO Victory - need 6 RoP, 5 for warning  =======================================  -->
+<!-- Notify all players of Allied & Friendly relationship Victory  -->
+<!--
+	<attachment foreach="$All-Players$" name="conditionAttachment_Notify_Victory_@All-Players@" attachTo="@All-Players@" javaClass="RulesAttachment" type="player">
+		<option name="alliedPresenceTerritories" value="map" count="6"/>
+		<option name="unitPresence" value="$All-RoP$" count="1"/>
+	</attachment>
+	<attachment foreach="$All-Players$" name="triggerAttachment_Notify_Victory_@All-Players@" attachTo="@All-Players@" javaClass="TriggerAttachment" type="player">
+		<option name="conditions" value="conditionAttachment_Notify_Victory_@All-Players@"/>
+		<option name="victory" value="Notify_Victory_@All-Players@"/> 
+		<option name="players" value="$All-Players$"/>
+	</attachment>
+-->
+<!-- @@@@@ Does the alliance hold this specific ring anywhere on the map? -->
+<attachment foreach="$All-Players$^$All-RoP$" name="conditionAttachment_Has_@All-RoP@_@All-Players@" attachTo="@All-Players@" javaClass="RulesAttachment" type="player">
+	<option name="alliedPresenceTerritories" value="map" count="1"/>
+	<option name="unitPresence" value="@All-RoP@" count="1"/>
+</attachment>
+
+<!-- Impending -->
+<attachment foreach="$All-Players$" name="conditionAttachment_Notify_Impending_@All-Players@" attachTo="@All-Players@" javaClass="RulesAttachment" type="player">
+	<option name="conditions" value="conditionAttachment_Has_Ring-of-Power-Demon_@All-Players@:conditionAttachment_Has_Ring-of-Power-Dwarf_@All-Players@:conditionAttachment_Has_Ring-of-Power-Goblin_@All-Players@:conditionAttachment_Has_Ring-of-Power-HighElf_@All-Players@:conditionAttachment_Has_Ring-of-Power-Men_@All-Players@:conditionAttachment_Has_Ring-of-Power-Orc_@All-Players@:conditionAttachment_Has_Ring-of-Power-Undead_@All-Players@:conditionAttachment_Has_Ring-of-Power-WoodElf_@All-Players@:conditionAttachment_Has_Ring-of-Power-Dragon_@All-Players@:conditionAttachment_Has_Ring-of-Power-Lost_@All-Players@:conditionAttachment_Has_Ring-of-Power-Missing_@All-Players@"/>
+	<option name="conditionType" value="5-11"/>	<!-- Impending: 5 or more rings -->	<!-- 5, 3=test, x on map -->
+</attachment>
+<attachment foreach="$All-Players$" name="triggerAttachment_Notify_Impening_@All-Players@" attachTo="@All-Players@" javaClass="TriggerAttachment" type="player">
+	<option name="conditions" value="conditionAttachment_Notify_Impending_@All-Players@"/>
+	<option name="notification" value="Notify_Impending_@All-Players@"/> 				<!-- see notification.properties -->
+	<option name="players" value="$All-Players$"/>
+</attachment>
+
+<!--	<option name="rules" value="conditionAttachment_Has_Ring-of-Power-Demon_@All-Players@:conditionAttachment_Has_Ring-of-Power-Dwarf_@All-Players@:conditionAttachment_Has_Ring-of-Power-Goblin_@All-Players@:conditionAttachment_Has_Ring-of-Power-HighElf_@All-Players@:conditionAttachment_Has_Ring-of-Power-Men_@All-Players@:conditionAttachment_Has_Ring-of-Power-Orc_@All-Players@:conditionAttachment_Has_Ring-of-Power-Undead_@All-Players@:conditionAttachment_Has_Ring-of-Power-WoodElf_@All-Players@:conditionAttachment_Has_Ring-of-Power-Dragon_@All-Players@:conditionAttachment_Has_Ring-of-Power-Lost_@All-Players@:conditionAttachment_Has_Ring-of-Power-Missing_@All-Players@"/>
+-->
+
+<!-- Victory -->
+<attachment foreach="$All-Players$" name="conditionAttachment_RoP_Victory_@All-Players@" attachTo="@All-Players@" javaClass="RulesAttachment" type="player">
+	<option name="conditions" value="conditionAttachment_Has_Ring-of-Power-Demon_@All-Players@:conditionAttachment_Has_Ring-of-Power-Dwarf_@All-Players@:conditionAttachment_Has_Ring-of-Power-Goblin_@All-Players@:conditionAttachment_Has_Ring-of-Power-HighElf_@All-Players@:conditionAttachment_Has_Ring-of-Power-Men_@All-Players@:conditionAttachment_Has_Ring-of-Power-Orc_@All-Players@:conditionAttachment_Has_Ring-of-Power-Undead_@All-Players@:conditionAttachment_Has_Ring-of-Power-WoodElf_@All-Players@:conditionAttachment_Has_Ring-of-Power-Dragon_@All-Players@:conditionAttachment_Has_Ring-of-Power-Lost_@All-Players@:conditionAttachment_Has_Ring-of-Power-Missing_@All-Players@"/>
+	<option name="conditionType" value="6-11"/>	<!-- victory: 6 or more rings -->	<!-- 6, 4=test, x on map -->
+</attachment>
+<attachment foreach="$All-Players$" name="triggerAttachment_Notify_Victory_@All-Players@" attachTo="@All-Players@" javaClass="TriggerAttachment" type="player">
+	<option name="conditions" value="conditionAttachment_RoP_Victory_@All-Players@"/>
+	<option name="victory" value="Notify_Victory_@All-Players@"/>					<!-- see notification.properties -->
+	<option name="players" value="$All-Players$"/>
+</attachment>
+
+
 
 <!-- ======================================= GO GET IMPENDING WINNERS =======================================  -->
 	<attachment foreach="$All-Players--Orc$" name="politicalActionAttachment-Orc_and_@All-Players--Orc@_Hostile-War-Impending" attachTo="Orc" javaClass="PoliticalActionAttachment" type="player">
@@ -5901,18 +5942,6 @@ relationship	values: a relationship that needs to be present in the game: "playe
 		<option name="chance" value="6:6"/>
 	</attachment> 
 
-
-<!-- ======================================= GO Victory - need 6 RoP, 5 for warning  =======================================  -->
-<!-- Notify all players of Allied & Friendly relationship Victory  -->
-	<attachment foreach="$All-Players$" name="conditionAttachment_Notify_Victory_@All-Players@" attachTo="@All-Players@" javaClass="RulesAttachment" type="player">
-		<option name="alliedPresenceTerritories" value="map" count="6"/>	<!-- 6, 4=test, x on map -->
-		<option name="unitPresence" value="$All-RoP$" count="1"/>
-	</attachment>
-	<attachment foreach="$All-Players$" name="triggerAttachment_Notify_Victory_@All-Players@" attachTo="@All-Players@" javaClass="TriggerAttachment" type="player">
-		<option name="conditions" value="conditionAttachment_Notify_Victory_@All-Players@"/>	<!-- see notification.properties -->
-		<option name="victory" value="Notify_Victory_@All-Players@"/> 
-		<option name="players" value="$All-Players$"/>
-	</attachment>
 
 
 <!-- ======================================= GO NOTIFICATIONS for all players of a Go Vanquished Faction ======================================= -->
