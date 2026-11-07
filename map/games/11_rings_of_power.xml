@@ -1,26 +1,19 @@
 ﻿<?xml version="1.0" ?>
 <!DOCTYPE game SYSTEM "game.dtd">
 <game>
-	<info name="11 Rings of Power" version="0.010"/>
+	<info name="11 Rings of Power" version="0.015"/>
 	<loader javaClass="games.strategy.triplea.TripleA"/>
   	<triplea minimumVersion="2026-09.16.15791"/>	<!-- Allows construction upgrades to be placed within construction limit, thanks to VictoryFirst -->
 	<diceSides value="8"/>
 <!-- TODO
-Fate Ambush Wild Things missing icon
 Siren reduces movement of all ships -1, like a TT effect, like blocked mount passes in shogun?
 Amphibious landing in Wilderness = 0 Atk
+I propose:  for each 4th Turn a fortress instead of a castle and a siege...
 
 DONE
-* Each faction now starts with 4 Mana, to aid Demon Beast theme and kick start Mana collection
-* Thorn Helm, Demon home, now produces 1 Mana and 1 less PU to aid Demon Beast theme
-* Beast now is 1 Mana Upkeep, was 2 Mana.  Didnot want to do this but needs must for Demon Beast theme
-* Each faction now gets 2:Construct was 3
-* Fortress now 3:Construct, was 2
-* 1888a sound folder removed
-
-* Added 4 more Fate, = Ambush, Prosperity+4pu/turn, Loot & Loot
-* Sticky relationships for Neutral=2+/rounds & Allied=3+/rounds
-
+* Faster Turns
+* Streamlined the way the 16 Fate items are displayed.  Being Allied would over write some Fates depending on the TT it was in.
+* Improved pre 1st turn speed for random placements
 
 =================================================
 
@@ -392,7 +385,7 @@ For Code Raiders
 <!-- <element name="The Great Dragons Lair"/>		Gaia -->
 
 
-<variable name="All-LowPU-Crossing-Pass">	<!-- 16 crossing for none Flag & Fate-0 -->
+<variable name="All-Crossing-Pass">	<!-- 16 crossing for none Flag & Fate-0 -->
 	<element name="Black Pool Crossing"/>
 	<element name="Blood Stream Crossing"/>
 	<element name="Bloodhorn Crossing"/>
@@ -414,7 +407,7 @@ For Code Raiders
 
 
 <variable name="All-LowPU">	<!-- 18+17+8=43  for none Flag-->
-	<element name="$All-LowPU-Crossing-Pass$"/>
+	<element name="$All-Crossing-Pass$"/>
 	<element name="Bat Cave"/>
 	<element name="Canyon of Fate"/>
 	<element name="Dark Labyrinth"/>
@@ -1149,6 +1142,8 @@ For Code Raiders
 <connection t1="Heathen Hills" t2="Marshes Of Madness"/>
 <connection t1="Heathen Hills" t2="Shady Woods"/>
 <connection t1="Heathen Hills" t2="Silver Peak"/>
+<connection t1="Heavenly Heights" t2="Griffin Peaks"/>
+<connection t1="Heavenly Heights" t2="New Isle"/>
 <connection t1="Hidden Hollows" t2="Firefell"/>
 <connection t1="Hidden Hollows" t2="Wasted Wetlands"/>
 <connection t1="Honey Meadows" t2="Iron Helm"/>
@@ -4382,11 +4377,11 @@ Simulate slower move on a River, costs 1+1=2 to enter, see below			<option name=
 	</attachment>
 
 <!-- pad All-LowPU-Crossing with Fate=0, so no Fates -->
-	<attachment foreach="$All-LowPU-Crossing-Pass$" name="triggerAttachment_T1_@All-LowPU-Crossing-Pass@" attachTo="none" javaClass="TriggerAttachment" type="player">
+	<attachment foreach="$All-Crossing-Pass$" name="triggerAttachment_Fate-0_T1_@All-Crossing-Pass@" attachTo="none" javaClass="TriggerAttachment" type="player">
 		<option name="conditions" value="conditionAttachment_T1_none"/>
-		<option name="placement" value="@All-LowPU-Crossing-Pass@:Flag" count="1"/>
-		<option name="placement" value="@All-LowPU-Crossing-Pass@:Wild-Things" count="1"/>
-		<option name="placement" value="@All-LowPU-Crossing-Pass@:Fate-0" count="1"/>
+<!--		<option name="placement" value="@All-Crossing-Pass@:Flag" count="1"/>
+		<option name="placement" value="@All-Crossing-Pass@:Wild-Things" count="1"/>  -->
+		<option name="placement" value="@All-Crossing-Pass@:Fate-0" count="1"/>
 <!--		<option name="players" value="none"/>  -->
 		<option name="when" value="before:nonePlace"/>
 		<option name="uses" value="1"/>
@@ -4959,98 +4954,33 @@ Simulate slower move on a River, costs 1+1=2 to enter, see below			<option name=
 <!-- Go All-RoP-Fate & Go All-RoP-TTSZ
 alliedOwnershipTerritories does not work, changes All-RoP to phasing player
 alliedPresenceTerritories works
+The dial territories are named exactly the same as the units
+"map" scans the whole map once per ring/player
 -->
 
-    <attachment foreach="$All-RoP-Fate$^$All-TTSZ$" name="conditionAttachment_RoPowned_none_@All-RoP-Fate@_@All-TTSZ@" attachTo="none" javaClass="RulesAttachment" type="player">
-		<option name="alliedPresenceTerritories" value="@All-TTSZ@" count="1"/>
-		<option name="unitPresence" value="@All-RoP-Fate@" count="1"/>
-    </attachment>
-	<attachment foreach="$All-RoP-Fate$^$All-TTSZ$" name="triggerAttachment_RoPowned_none_@All-RoP-Fate@_@All-TTSZ@" attachTo="none" javaClass="TriggerAttachment" type="player">
-		<option name="conditions" value="conditionAttachment_RoPowned_none_@All-RoP-Fate@_@All-TTSZ@"/>
-		<option name="changeOwnership" value="@All-RoP-Fate@:any:none:false"/>
-		<option name="when" value="after:none1EndTurnNoPU"/>
-	</attachment>
+<!-- 8 players -->
+<attachment foreach="$All-Players$^$All-RoP-Fate$" name="conditionAttachment_DialOwner_@All-Players@_@All-RoP-Fate@" attachTo="@All-Players@" javaClass="RulesAttachment" type="player">
+	<option name="directPresenceTerritories" value="map" count="1"/>
+	<option name="unitPresence" value="@All-RoP-Fate@" count="1"/>
+</attachment>
+<attachment foreach="$All-Players$^$All-RoP-Fate$" name="triggerAttachment_DialOwner_@All-Players@_@All-RoP-Fate@" attachTo="@All-Players@" javaClass="TriggerAttachment" type="player">
+	<option name="conditions" value="conditionAttachment_DialOwner_@All-Players@_@All-RoP-Fate@"/>
+	<option name="changeOwnership" value="@All-RoP-Fate@:any:@All-Players@:false"/>
+	<option name="when" value="before:@All-Players@1EndTurn"/>
+</attachment>
 
-    <attachment foreach="$All-RoP-Fate$^$All-TTSZ$" name="conditionAttachment_RoPowned_Demon_@All-RoP-Fate@_@All-TTSZ@" attachTo="Demon" javaClass="RulesAttachment" type="player">
-		<option name="alliedPresenceTerritories" value="@All-TTSZ@" count="1"/>
-		<option name="unitPresence" value="@All-RoP-Fate@" count="1"/>
-    </attachment>
-	<attachment foreach="$All-RoP-Fate$^$All-TTSZ$" name="triggerAttachment_RoPowned_Demon_@All-RoP-Fate@_@All-TTSZ@" attachTo="Demon" javaClass="TriggerAttachment" type="player">
-		<option name="conditions" value="conditionAttachment_RoPowned_Demon_@All-RoP-Fate@_@All-TTSZ@"/>
-		<option name="changeOwnership" value="@All-RoP-Fate@:any:Demon:false"/>
-		<option name="when" value="before:Demon1EndTurn"/>
-	</attachment>
-
-    <attachment foreach="$All-RoP-Fate$^$All-TTSZ$" name="conditionAttachment_RoPowned_Dwarf_@All-RoP-Fate@_@All-TTSZ@" attachTo="Dwarf" javaClass="RulesAttachment" type="player">
-		<option name="alliedPresenceTerritories" value="@All-TTSZ@" count="1"/>
-		<option name="unitPresence" value="@All-RoP-Fate@" count="1"/>
-    </attachment>
-	<attachment foreach="$All-RoP-Fate$^$All-TTSZ$" name="triggerAttachment_RoPowned_Dwarf_@All-RoP-Fate@_@All-TTSZ@" attachTo="Dwarf" javaClass="TriggerAttachment" type="player">
-		<option name="conditions" value="conditionAttachment_RoPowned_Dwarf_@All-RoP-Fate@_@All-TTSZ@"/>
-		<option name="changeOwnership" value="@All-RoP-Fate@:any:Dwarf:false"/>
-		<option name="when" value="before:Dwarf1EndTurn"/>
-	</attachment>
-
-    <attachment foreach="$All-RoP-Fate$^$All-TTSZ$" name="conditionAttachment_RoPowned_Goblin_@All-RoP-Fate@_@All-TTSZ@" attachTo="Goblin" javaClass="RulesAttachment" type="player">
-		<option name="alliedPresenceTerritories" value="@All-TTSZ@" count="1"/>
-		<option name="unitPresence" value="@All-RoP-Fate@" count="1"/>
-    </attachment>
-	<attachment foreach="$All-RoP-Fate$^$All-TTSZ$" name="triggerAttachment_RoPowned_Goblin_@All-RoP-Fate@_@All-TTSZ@" attachTo="Goblin" javaClass="TriggerAttachment" type="player">
-		<option name="conditions" value="conditionAttachment_RoPowned_Goblin_@All-RoP-Fate@_@All-TTSZ@"/>
-		<option name="changeOwnership" value="@All-RoP-Fate@:any:Goblin:false"/>
-		<option name="when" value="before:Goblin1EndTurn"/>
-	</attachment>
-
-    <attachment foreach="$All-RoP-Fate$^$All-TTSZ$" name="conditionAttachment_RoPowned_HighElf_@All-RoP-Fate@_@All-TTSZ@" attachTo="HighElf" javaClass="RulesAttachment" type="player">
-		<option name="alliedPresenceTerritories" value="@All-TTSZ@" count="1"/>
-		<option name="unitPresence" value="@All-RoP-Fate@" count="1"/>
-    </attachment>
-	<attachment foreach="$All-RoP-Fate$^$All-TTSZ$" name="triggerAttachment_RoPowned_HighElf_@All-RoP-Fate@_@All-TTSZ@" attachTo="HighElf" javaClass="TriggerAttachment" type="player">
-		<option name="conditions" value="conditionAttachment_RoPowned_HighElf_@All-RoP-Fate@_@All-TTSZ@"/>
-		<option name="changeOwnership" value="@All-RoP-Fate@:any:HighElf:false"/>
-		<option name="when" value="before:HighElf1EndTurn"/>
-	</attachment>
-
-    <attachment foreach="$All-RoP-Fate$^$All-TTSZ$" name="conditionAttachment_RoPowned_Men_@All-RoP-Fate@_@All-TTSZ@" attachTo="Men" javaClass="RulesAttachment" type="player">
-		<option name="alliedPresenceTerritories" value="@All-TTSZ@" count="1"/>
-		<option name="unitPresence" value="@All-RoP-Fate@" count="1"/>
-    </attachment>
-	<attachment foreach="$All-RoP-Fate$^$All-TTSZ$" name="triggerAttachment_RoPowned_Men_@All-RoP-Fate@_@All-TTSZ@" attachTo="Men" javaClass="TriggerAttachment" type="player">
-		<option name="conditions" value="conditionAttachment_RoPowned_Men_@All-RoP-Fate@_@All-TTSZ@"/>
-		<option name="changeOwnership" value="@All-RoP-Fate@:any:Men:false"/>
-		<option name="when" value="before:Men1EndTurn"/>
-	</attachment>
+<!-- none (RoP/Fate not yet found, the Mighty-Dragon, Missing, Lost Rings) -->
+<attachment foreach="$All-RoP-Fate$" name="conditionAttachment_DialOwner_none_@All-RoP-Fate@" attachTo="none" javaClass="RulesAttachment" type="player">
+	<option name="directPresenceTerritories" value="map" count="1"/>
+	<option name="unitPresence" value="@All-RoP-Fate@" count="1"/>
+</attachment>
+<attachment foreach="$All-RoP-Fate$" name="triggerAttachment_DialOwner_none_@All-RoP-Fate@" attachTo="none" javaClass="TriggerAttachment" type="player">
+	<option name="conditions" value="conditionAttachment_DialOwner_none_@All-RoP-Fate@"/>
+	<option name="changeOwnership" value="@All-RoP-Fate@:any:none:false"/>
+	<option name="when" value="after:none1EndTurnNoPU"/>	<!-- cannot be before (only after) as will error -->
+</attachment>
 
 
-    <attachment foreach="$All-RoP-Fate$^$All-TTSZ$" name="conditionAttachment_RoPowned_Orc_@All-RoP-Fate@_@All-TTSZ@" attachTo="Orc" javaClass="RulesAttachment" type="player">
-		<option name="alliedPresenceTerritories" value="@All-TTSZ@" count="1"/>
-		<option name="unitPresence" value="@All-RoP-Fate@" count="1"/>
-    </attachment>
-	<attachment foreach="$All-RoP-Fate$^$All-TTSZ$" name="triggerAttachment_RoPowned_Orc_@All-RoP-Fate@_@All-TTSZ@" attachTo="Orc" javaClass="TriggerAttachment" type="player">
-		<option name="conditions" value="conditionAttachment_RoPowned_Orc_@All-RoP-Fate@_@All-TTSZ@"/>
-		<option name="changeOwnership" value="@All-RoP-Fate@:any:Orc:false"/>
-		<option name="when" value="before:Orc1EndTurn"/>
-	</attachment>
-
-    <attachment foreach="$All-RoP-Fate$^$All-TTSZ$" name="conditionAttachment_RoPowned_Undead_@All-RoP-Fate@_@All-TTSZ@" attachTo="Undead" javaClass="RulesAttachment" type="player">
-		<option name="alliedPresenceTerritories" value="@All-TTSZ@" count="1"/>
-		<option name="unitPresence" value="@All-RoP-Fate@" count="1"/>
-    </attachment>
-	<attachment foreach="$All-RoP-Fate$^$All-TTSZ$" name="triggerAttachment_RoPowned_Undead_@All-RoP-Fate@_@All-TTSZ@" attachTo="Undead" javaClass="TriggerAttachment" type="player">
-		<option name="conditions" value="conditionAttachment_RoPowned_Undead_@All-RoP-Fate@_@All-TTSZ@"/>
-		<option name="changeOwnership" value="@All-RoP-Fate@:any:Undead:false"/>
-		<option name="when" value="before:Undead1EndTurn"/>
-	</attachment>
-
-    <attachment foreach="$All-RoP-Fate$^$All-TTSZ$" name="conditionAttachment_RoPowned_WoodElf_@All-RoP-Fate@_@All-TTSZ@" attachTo="WoodElf" javaClass="RulesAttachment" type="player">
-		<option name="alliedPresenceTerritories" value="@All-TTSZ@" count="1"/>
-		<option name="unitPresence" value="@All-RoP-Fate@" count="1"/>
-    </attachment>
-	<attachment foreach="$All-RoP-Fate$^$All-TTSZ$" name="triggerAttachment_RoPowned_WoodElf_@All-RoP-Fate@_@All-TTSZ@" attachTo="WoodElf" javaClass="TriggerAttachment" type="player">
-		<option name="conditions" value="conditionAttachment_RoPowned_WoodElf_@All-RoP-Fate@_@All-TTSZ@"/>
-		<option name="changeOwnership" value="@All-RoP-Fate@:any:WoodElf:false"/>
-		<option name="when" value="before:WoodElf1EndTurn"/>
-	</attachment>
 
 
 <!-- ======================================= Change current SZ owner to originalOwner to collect PU =======================================  -->
