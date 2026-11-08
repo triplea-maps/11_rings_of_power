@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" ?>
 <!DOCTYPE game SYSTEM "game.dtd">
 <game>
-	<info name="11 Rings of Power" version="0.015"/>
+	<info name="11 Rings of Power" version="0.020"/>
 	<loader javaClass="games.strategy.triplea.TripleA"/>
   	<triplea minimumVersion="2026-09.16.15791"/>	<!-- Allows construction upgrades to be placed within construction limit, thanks to VictoryFirst -->
 	<diceSides value="8"/>
@@ -11,6 +11,12 @@ Amphibious landing in Wilderness = 0 Atk
 I propose:  for each 4th Turn a fortress instead of a castle and a siege...
 
 DONE
+* Improved sounds
+* Improved unit in place.txt & PUs pu_place.txt
+* more sounds in notifications.properties file
+
+
+
 * Faster Turns
 * Streamlined the way the 16 Fate items are displayed.  Being Allied would over write some Fates depending on the TT it was in.
 * Improved pre 1st turn speed for random placements
@@ -567,8 +573,16 @@ For Code Raiders
 
 <variable name="All-Players">			<!-- 8 PAIRED order with All-Capital -->
 	<element name="Demon"/>
-	<element name="$All-Players--Demon$"/>
+	<element name="Dwarf"/>
+	<element name="Goblin"/>
+	<element name="HighElf"/>
+	<element name="Men"/>
+	<element name="Orc"/>
+	<element name="Undead"/>
+	<element name="WoodElf"/>
 </variable>
+
+
 
 
 <!-- ======================================= Go Politics All-Players less one faction ======================================= --> 
